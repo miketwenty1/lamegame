@@ -1,0 +1,25 @@
+{
+  "name": "lamegame",
+  "version": "1.0.0",
+  "description": "lamegame",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "phaser": "^3.21.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miketwenty1/lamegame.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miketwenty1/lamegame/issues"
+  },
+  "homepage": "https://github.com/miketwenty1/lamegame#readme"
+}
