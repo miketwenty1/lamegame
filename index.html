@@ -1,3 +1,52 @@
 <html>
   <canvas id="myCanvas" width="200" height="100" style="border:21px solid #0f40f7;"></canvas>
+  <canvas id="myCanvas_2" width="400" height="100" style="border:3px solid #Ff40f7; position: absolute; left: 400; top: 400; z-index: 0;"></canvas>
+  <canvas id="myCanvas_3" width="300" height="100" style="border:3px solid #cff407; position: absolute; left: 400; top: 400; z-index: 1;"></canvas>
+
+  <script>
+    const canvas = document.getElementById("myCanvas");
+    const ctx_line = canvas.getContext("2d");
+    const ctx_circle = canvas.getContext("2d");
+    // fill
+    ctx_line.fillStyle = "#FF0000";
+    ctx_line.fillRect(0,0,1500,705);
+
+    // line
+    ctx_line.moveTo(21,21);
+    ctx_line.lineTo(100,80);
+    ctx_line.stroke();
+
+    // circle
+    ctx_circle.beginPath();
+    ctx_circle.arc(47, 50, 21, 0, 2 * Math.PI);
+    ctx_circle.stroke();
+
+  </script>
+
+  <script>
+    const c = document.getElementById("myCanvas_2");
+    const ctx = c.getContext("2d");
+
+    // Create gradient
+    const grd = ctx.createLinearGradient(0, 0, 200, 0);
+    grd.addColorStop(0, "red");
+    grd.addColorStop(1, "white");
+
+    // Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.fillRect(10, 10, 150, 80);
+
+    const c2 = document.getElementById("myCanvas_3");
+    const ctx_word = c2.getContext("2d");
+    // const ctx_word_2 = c2.getContext("2d");
+    ctx_word.font = "30px Arial";
+    ctx_word.fillText("Made you look", 10, 50);
+
+    // ctx_word_2.font = "30px Arial";
+    // ctx_word_2.strokeText("LOL", 10, 50);
+
+
+  </script>
+
+
 </html>
