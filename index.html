@@ -1,87 +1,150 @@
+<!DOCTYPE html>
 <html>
-  <canvas id="myCanvas" width="200" height="100" style="border:21px solid #0f40f7;"></canvas>
-  <canvas id="myCanvas_2" width="400" height="100" style="border:3px solid #Ff40f7; position: absolute; left: 400; top: 380; z-index: 0;"></canvas>
-  <canvas id="myCanvas_3" width="300" height="100" style="border:3px solid #cff407; position: absolute; left: 400; top: 400; z-index: 1;"></canvas>
-
-  <script>
-    const canvas = document.getElementById("myCanvas");
-    const ctx_line = canvas.getContext("2d");
-    const ctx_circle = canvas.getContext("2d");
-    // fill
-    ctx_line.fillStyle = "#FF0000";
-    ctx_line.fillRect(0,0,1500,705);
-
-    // line
-    ctx_line.moveTo(21,21);
-    ctx_line.lineTo(100,80);
-    ctx_line.stroke();
-
-    // circle
-    ctx_circle.beginPath();
-    ctx_circle.arc(47, 50, 21, 0, 2 * Math.PI);
-    ctx_circle.stroke();
-
-  </script>
-
-
-<!-- layering canvases  -->
-  <script>
-    const c = document.getElementById("myCanvas_2");
-    const ctx = c.getContext("2d");
-
-    // Create gradient
-    const grd = ctx.createLinearGradient(0, 0, 200, 0);
-    grd.addColorStop(0, "red");
-    grd.addColorStop(1, "white");
-
-    // Fill with gradient
-    ctx.fillStyle = grd;
-    ctx.fillRect(10, 10, 150, 80);
-
-    // utilizing different layers to put LOL behind the other text
-    const c2 = document.getElementById("myCanvas_3");
-    const ctx_word = c2.getContext("2d");
-    const ctx_word_2 = c2.getContext("2d");
-    ctx_word.font = "30px Arial";
-    ctx_word.fillText("Made you look", 10, 50);
-
-    ctx_word_2.font = "60px Arial";
-    ctx_word_2.textAlign = "center";
-    ctx_word_2.strokeText("LOL", c2.width/2, c2.height/2);
-    
-
-  </script>
-
-<!-- images -->
-<img id="enemy1" width="100" height="130" src="level_1_enemy.png" style="display: none;" alt="Level one enemy">
-
-
-<canvas id="c4" width="700" height="297"
-style="border:1px solid #03dfdf;">
-Your browser does not support the HTML5 canvas tag.
-</canvas>
-
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()">
 <script>
-window.onload = function() {
-  const c4 = document.getElementById("c4");
-  const image = document.getElementById("enemy1");
 
-  // put in middle of canvas
-  var canvasContext = c4.getContext('2d');
-  var wrh = image.width / image.height;
-  var newWidth = c4.width;
-  var newHeight = newWidth / wrh;
-  if (newHeight > c4.height) {
-    newHeight = c4.height;
-    newWidth = newHeight * wrh;
-  }
-  var xOffset = newWidth < c4.width ? ((c4.width - newWidth) / 2) : 0;
-  var yOffset = newHeight < c4.height ? ((c4.height - newHeight) / 2) : 0;
+var myGamePiece;
+var myObstacles = [];
+var myScore;
 
-  canvasContext.drawImage(image, xOffset, yOffset, newWidth, newHeight);
+function startGame() {
+    myGamePiece = new component(30, 30, "red", 10, 120);
+    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+    myGameArea.start();
+}
 
-};
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    }
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            myGameArea.stop();
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        x = myGameArea.canvas.width;
+        minHeight = 20;
+        maxHeight = 200;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 200;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myObstacles.push(new component(10, height, "green", x, 0));
+        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].speedX = -1;
+        myObstacles[i].newPos();
+        myObstacles[i].update();
+    }
+    myScore.text="SCORE: " + myGameArea.frameNo;
+    myScore.update();
+    myGamePiece.newPos();    
+    myGamePiece.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function moveup() {
+    myGamePiece.speedY = -1; 
+}
+
+function movedown() {
+    myGamePiece.speedY = 1; 
+}
+
+function moveleft() {
+    myGamePiece.speedX = -1; 
+}
+
+function moveright() {
+    myGamePiece.speedX = 1; 
+}
+
+function clearmove() {
+    myGamePiece.speedX = 0; 
+    myGamePiece.speedY = 0; 
+}
 </script>
+<div style="text-align:center;width:480px;">
+  <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
+  <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()">LEFT</button>
+  <button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()">RIGHT</button><br><br>
+  <button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()">DOWN</button>
+</div>
 
-
+<p>The score will count one point for each frame you manage to "stay alive".</p>
+</body>
 </html>
