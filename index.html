@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    canvas {
+      border:1px solid #d3d3d3;
+      background-color: #f1f1f1;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      /* width: 400px;
+      height: 400px; 
+      Setting canvas size here messing up scaling aspects for some reason with rectangles.. when inline in the canvas object scaling issues don't happen */
+    }
+    .horizontal-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+  <script type="text/javascript" src="js/start.js"></script>
+</head>
+<body onload="start();">
+
+  <canvas id="lamegame" width="400" height="400"></canvas>
+  <div class="horizontal-center">
+    <input type="button" value="level 1" onclick="loadLevel1();">
+    <input type="button" value="level 2" onclick="loadLevel2();">
+    <input type="button" value="level 3" onclick="loadLevel3();">
+    <input type="button" value="smile" onclick="loadsmile();">
+  </div>
+
+  <!-- o class="button_pw" -->
+
+</body>
+</html>
