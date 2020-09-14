@@ -23,6 +23,22 @@ function loadLevel1() {
   ctx.fillRect(10,10,50,50);
   ctx.fillStyle = 'rgba(0, 0, 200, 0.2)';
   ctx.fillRect(30, 30, 50, 50);
+
+      
+  // text bubble
+  var rx = 0;
+  var ry = 0;
+  var xoffset = 250;
+  var yoffset = 150;
+  ctx.beginPath();
+  ctx.moveTo(rx+75+xoffset, ry+25+yoffset);
+  ctx.quadraticCurveTo(rx+25+xoffset, ry+25+yoffset, rx+25+xoffset, ry+62.5+yoffset);
+  ctx.quadraticCurveTo(rx+25+xoffset, ry+100+yoffset, rx+50+xoffset, ry+100+yoffset);
+  ctx.quadraticCurveTo(rx+50+xoffset, ry+120+yoffset, rx+30+xoffset, ry+125+yoffset);
+  ctx.quadraticCurveTo(rx+60+xoffset, ry+120+yoffset, rx+65+xoffset, ry+100+yoffset);
+  ctx.quadraticCurveTo(rx+125+xoffset, ry+100+yoffset, rx+125+xoffset, ry+62.5+yoffset);
+  ctx.quadraticCurveTo(rx+125+xoffset, ry+25+yoffset, rx+75+xoffset, ry+25+yoffset);
+  ctx.stroke();
 }
 function loadLevel2() {
   var canvas = document.getElementById('lamegame');
@@ -32,28 +48,46 @@ function loadLevel2() {
   ctx.fillRect(10,10,50,50);
   ctx.fillStyle = 'rgba(50, 200, 50, 0.2)';
   ctx.fillRect(30, 30, 50, 50);
+
+  var p = new Path2D('M100 10 h 180 v 60 h -280 Z');
+  ctx.fill(p);
+
 }
 function loadLevel3() {
   var canvas = document.getElementById('lamegame');
   var ctx = canvas.getContext('2d');
+  
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'rgb(0,0,0)';
   ctx.fillRect(25, 25, 100, 100);
   ctx.clearRect(45, 45, 60, 60);
   ctx.strokeRect(50, 50, 50, 50);
+
+  var xoffset = 125;
+  var yoffset = 140;
+  ctx.beginPath();
+  ctx.moveTo(75+xoffset, 40+yoffset);
+  ctx.bezierCurveTo(75+xoffset, 37+yoffset, 70+xoffset, 25+yoffset, 50+xoffset, 25+yoffset);
+  ctx.bezierCurveTo(20+xoffset, 25+yoffset, 20+xoffset, 62.5+yoffset, 20+xoffset, 62.5+yoffset);
+  ctx.bezierCurveTo(20+xoffset, 80+yoffset, 40+xoffset, 102+yoffset, 75+xoffset, 120+yoffset);
+  ctx.bezierCurveTo(110+xoffset, 102+yoffset, 130+xoffset, 80+yoffset, 130+xoffset, 62.5+yoffset);
+  ctx.bezierCurveTo(130+xoffset, 62.5+yoffset, 130+xoffset, 25+yoffset, 100+xoffset, 25+yoffset);
+  ctx.bezierCurveTo(85+xoffset, 25+yoffset, 75+xoffset, 37+yoffset, 75+xoffset, 40+yoffset);
+  ctx.fill();
+
 }
 async function loadsmile() {
   var canvas = document.getElementById('lamegame');
   var ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+  var gx = Math.floor(Math.random() * canvas.width+1);
   var j;
   for (j = 0; j < 200; j++) {
     var i;
-    for (i = 0; i < 5; i++) {
-      var rx = Math.floor(Math.random() * 400);
-      var ry = Math.floor(Math.random() * 400);
-      
+    for (i = 0; i < 30; i++) {
+      var rx = Math.floor(Math.random() * canvas.width+1);
+      var ry = Math.floor(Math.random() * canvas.height+1);
+      ctx.strokeStyle = "rgb(" + rx % 255 + ","+ gx % 255 +"," + ry % 255 + ")";
       ctx.beginPath();
       ctx.arc(rx, ry, 50, 0, Math.PI * 2, true); // Outer circle
       ctx.moveTo(rx+35, ry);
@@ -63,6 +97,7 @@ async function loadsmile() {
       ctx.moveTo(rx+20, ry-10);
       ctx.arc(rx+15, ry-10, 5, 0, Math.PI * 2, true);  // Right eye
       ctx.stroke();
+
     }
     await sleep(100);
     // ctx.clearRect(0, 0, canvas.width, canvas.height);
