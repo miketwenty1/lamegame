@@ -23,6 +23,7 @@ function loadLevel1() {
   ctx.fillRect(10,10,50,50);
   ctx.fillStyle = 'rgba(0, 0, 200, 0.2)';
   ctx.fillRect(30, 30, 50, 50);
+  
 
       
   // text bubble
@@ -39,6 +40,22 @@ function loadLevel1() {
   ctx.quadraticCurveTo(rx+125+xoffset, ry+100+yoffset, rx+125+xoffset, ry+62.5+yoffset);
   ctx.quadraticCurveTo(rx+125+xoffset, ry+25+yoffset, rx+75+xoffset, ry+25+yoffset);
   ctx.stroke();
+
+  for (var i = 0; i < 6; i++) {
+    for (var j = 0; j < 6; j++) {
+      ctx.fillStyle = 'rgba(' + Math.floor(255 - 42.5 * i) + ', ' + Math.floor(255 - 42.5 * j) + ', 255, .8)';
+      ctx.fillRect((j * 25)+200, (i * 25)+200, 25, 25);
+    }
+  }
+  for (var i = 0; i < 6; i++) {
+    for (var j = 0; j < 6; j++) {
+      ctx.strokeStyle = 'rgb(0, ' + Math.floor(255 - 42.5 * i) + ', ' + 
+                       Math.floor(255 - 42.5 * j) + ')';
+      ctx.beginPath();
+      ctx.arc((12.5 + j * 25)+200, (12.5 + i * 25)+200, 10, 0, Math.PI * 2, true);
+      ctx.stroke();
+    }
+  }
 }
 function loadLevel2() {
   var canvas = document.getElementById('lamegame');
