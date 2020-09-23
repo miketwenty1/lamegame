@@ -16,16 +16,51 @@ function start() {
 }
 
 function loadLevel1() {
+
   var canvas = document.getElementById('lamegame');
   var ctx = canvas.getContext('2d');
+  // const img = new Image();
+  // img.src = "level_1_enemy.png"
+  // img.onload = () => {
+  //   ctx.drawImage(img, 0, 0)
+  // }
+  const MARIO_WIDTH = 32;
+  const MARIO_HEIGHT = 39;
+  var mario = new Image();
+  mario.src = "mario_spritesheet.png"
+  // var imge = new Image();
+  // imge = "enemy1.png"
+
+  // var img = document.getElementById("e1");
+  mario.onload = () => {
+    // ctx.drawImage(img, 0, 0, img.width, img.height, 200, 200, img.width, img.height)
+    ctx.drawImage(
+      // Image
+      mario,
+      // ---- Selection ----
+      0, // sx
+      MARIO_HEIGHT * 4, // sy
+      MARIO_WIDTH, // sWidth
+      MARIO_HEIGHT, // sHeight
+      // ---- Drawing ----
+      0, // dx
+      0, // dy
+      MARIO_WIDTH * 1.5, // dWidth
+      MARIO_HEIGHT * 1.5 // dHeight
+    );
+    update();
+    
+  }
+  // imge.onload = () => { for some reason this doesn't work with multiple images doing this "image on load" may not work multiple times
+  //   ctx.drawImage(imge, 0, 0)
+  // }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'rgb(200,0,0)';
   ctx.fillRect(10,10,50,50);
   ctx.fillStyle = 'rgba(0, 0, 200, 0.2)';
   ctx.fillRect(30, 30, 50, 50);
   
-
-      
   // text bubble
   var rx = 0;
   var ry = 0;
@@ -68,7 +103,12 @@ function loadLevel2() {
 
   var p = new Path2D('M100 10 h 180 v 60 h -280 Z');
   ctx.fill(p);
-
+  var img = new Image();
+  img.src = "enemy2.png"
+  // var img = document.getElementById("e1");
+  img.onload = () => {
+    ctx.drawImage(img, 190, 190)
+  }
 }
 function loadLevel3() {
   var canvas = document.getElementById('lamegame');
@@ -91,7 +131,12 @@ function loadLevel3() {
   ctx.bezierCurveTo(130+xoffset, 62.5+yoffset, 130+xoffset, 25+yoffset, 100+xoffset, 25+yoffset);
   ctx.bezierCurveTo(85+xoffset, 25+yoffset, 75+xoffset, 37+yoffset, 75+xoffset, 40+yoffset);
   ctx.fill();
-
+  var img = new Image();
+  img.src = "enemy3.png"
+  // var img = document.getElementById("e1");
+  img.onload = () => {
+    ctx.drawImage(img, 190, 190)
+  }
 }
 async function loadsmile() {
   var canvas = document.getElementById('lamegame');
