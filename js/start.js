@@ -19,11 +19,11 @@ function loadLevel1() {
 
   var canvas = document.getElementById('lamegame');
   var ctx = canvas.getContext('2d');
-  // const img = new Image();
-  // img.src = "level_1_enemy.png"
-  // img.onload = () => {
-  //   ctx.drawImage(img, 0, 0)
-  // }
+  const img = new Image();
+  img.src = "enemy1.png"
+  img.onload = () => {
+    ctx.drawImage(img, 210, 0, 140, 140)
+  }
   const MARIO_WIDTH = 32;
   const MARIO_HEIGHT = 39;
   var mario = new Image();
@@ -48,7 +48,7 @@ function loadLevel1() {
       MARIO_WIDTH * 1.5, // dWidth
       MARIO_HEIGHT * 1.5 // dHeight
     );
-    update();
+    // update();
     
   }
   // imge.onload = () => { for some reason this doesn't work with multiple images doing this "image on load" may not work multiple times
@@ -76,6 +76,7 @@ function loadLevel1() {
   ctx.quadraticCurveTo(rx+125+xoffset, ry+25+yoffset, rx+75+xoffset, ry+25+yoffset);
   ctx.stroke();
 
+  // bubble grid
   for (var i = 0; i < 6; i++) {
     for (var j = 0; j < 6; j++) {
       ctx.fillStyle = 'rgba(' + Math.floor(255 - 42.5 * i) + ', ' + Math.floor(255 - 42.5 * j) + ', 255, .8)';
@@ -85,12 +86,18 @@ function loadLevel1() {
   for (var i = 0; i < 6; i++) {
     for (var j = 0; j < 6; j++) {
       ctx.strokeStyle = 'rgb(0, ' + Math.floor(255 - 42.5 * i) + ', ' + 
-                       Math.floor(255 - 42.5 * j) + ')';
+                        Math.floor(255 - 42.5 * j) + ')';
       ctx.beginPath();
       ctx.arc((12.5 + j * 25)+200, (12.5 + i * 25)+200, 10, 0, Math.PI * 2, true);
       ctx.stroke();
     }
   }
+  
+  // game loop (i want to take this out of this and make a generic game loop with parameters.)
+  for (var i = 0; i < 10; i++) {
+    
+  }
+
 }
 function loadLevel2() {
   var canvas = document.getElementById('lamegame');
@@ -169,3 +176,7 @@ async function loadsmile() {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// function jiggle(img) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
